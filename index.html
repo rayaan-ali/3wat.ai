@@ -5,10 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wat.AI — University of Waterloo AI Club</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Load tsParticles for background animation -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.1/tsparticles.bundle.min.js"></script>
+
+  <style>
+    /* Extra custom styles */
+    #particles-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width:100%;
+      height:100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+    section {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
-<body class="bg-[#000000] text-[#ecc35c] font-sans">
+<body class="bg-[#000000] text-[#ecc35c] font-sans overflow-x-hidden">
+
+  <!-- Particles Background -->
+  <div id="particles-background"></div>
+
   <!-- NAV -->
-  <nav class="bg-[#000000] shadow-md">
+  <nav class="fixed w-full bg-[#000000]/90 backdrop-blur-md z-50 shadow-lg">
     <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 bg-gradient-to-br from-[#000000] to-[#ecc35c] rounded-full flex items-center justify-center text-[#ecc35c] font-bold">W</div>
@@ -18,80 +46,75 @@
         </div>
       </div>
       <div class="hidden md:flex gap-6 text-sm text-[#ecc35c]">
-        <a href="#about">About</a>
-        <a href="#impact">Impact</a>
-        <a href="#join">Join</a>
-        <a href="#contact">Contact</a>
+        <a href="#about" class="hover:text-white transition">About</a>
+        <a href="#impact" class="hover:text-white transition">Impact</a>
+        <a href="#join" class="hover:text-white transition">Join</a>
+        <a href="#contact" class="hover:text-white transition">Contact</a>
       </div>
     </div>
   </nav>
 
   <!-- HERO -->
-  <header class="max-w-5xl mx-auto px-6 py-12 text-center">
-    <h1 class="text-4xl md:text-5xl font-extrabold text-[#ecc35c]">Wat.AI</h1>
-    <p class="mt-4 text-[#ecc35c]/90 max-w-2xl mx-auto">
-      WAT.ai is a student-run Artificial Intelligence (AI) Organization at the University of Waterloo and the undergraduate student body of the Waterloo AI Institute and member of the Sedra Student Design Centre (SSDC).
-    </p>
+  <header id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-6">
+    <h1 class="text-5xl md:text-7xl font-extrabold text-[#ecc35c] drop-shadow-lg">Wat.AI</h1>
+    <p class="mt-6 max-w-2xl text-lg md:text-2xl text-[#ecc35c]/90">WAT.ai is a student-run Artificial Intelligence (AI) Organization at the University of Waterloo and the undergraduate student body of the Waterloo AI Institute and member of the Sedra Student Design Centre (SSDC).</p>
+    <a href="#about" class="mt-8 text-[#000000] bg-[#ecc35c] px-6 py-3 rounded-full font-semibold hover:bg-[#goldenrod] transition">Learn More</a>
   </header>
 
-  <main class="max-w-5xl mx-auto px-6 pb-24 space-y-8">
-    <!-- ABOUT -->
-    <section id="about" class="bg-[#000000] border border-[#ecc35c] p-6 rounded-lg shadow-sm">
-      <h2 class="text-2xl font-semibold text-[#ecc35c]">About</h2>
-      <p class="mt-2 text-[#ecc35c]/90">
-        Our goal is to establish an environment to enable the continued growth of AI talent and suitable access to opportunities within the Waterloo community. 
-        We provide opportunities for undergraduate and graduate students to engage in impactful projects through collaboration with companies and internal research.
+  <main class="max-w-5xl mx-auto px-6 space-y-24 pb-24">
+    
+    <section id="about" class="section">
+      <h2 class="text-3xl font-semibold text-[#ecc35c]">About</h2>
+      <p class="mt-4 text-[#ecc35c]/90 text-lg leading-relaxed">
+        Our goal is to establish an environment to enable the continued growth of AI talent and suitable access to opportunities within the Waterloo community. We provide opportunities for undergraduate and graduate students to engage in impactful projects through collaboration with companies and internal research.
       </p>
     </section>
 
-    <!-- IMPACT -->
-    <section id="impact" class="bg-[#000000] border border-[#ecc35c] p-6 rounded-lg shadow-sm">
-      <h2 class="text-2xl font-semibold text-[#ecc35c]">Our Impact</h2>
-      <p class="mt-2 text-[#ecc35c]/90">Join a thriving community of AI enthusiasts making real impact through research, collaboration, and innovation.</p>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-6 text-center">
-        <div>
-          <div class="text-3xl font-bold">450+</div>
-          <div class="text-sm text-[#ecc35c]/80">Program Graduates</div>
+    <section id="impact" class="section">
+      <h2 class="text-3xl font-semibold text-[#ecc35c]">Our Impact</h2>
+      <p class="mt-2 text-[#ecc35c]/90 text-lg">Join a thriving community of AI enthusiasts making real impact through research, collaboration, and innovation.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mt-8">
+        <div class="impact-card p-8 bg-[#000000]/70 border border-[#ecc35c] rounded-lg hover:scale-105 transition">
+          <div class="text-4xl font-bold">450+</div>
+          <div class="mt-2 text-sm text-[#ecc35c]/80">Program Graduates</div>
         </div>
-        <div>
-          <div class="text-3xl font-bold">40+</div>
-          <div class="text-sm text-[#ecc35c]/80">AI Projects</div>
+        <div class="impact-card p-8 bg-[#000000]/70 border border-[#ecc35c] rounded-lg hover:scale-105 transition">
+          <div class="text-4xl font-bold">40+</div>
+          <div class="mt-2 text-sm text-[#ecc35c]/80">AI Projects Completed Successfully</div>
         </div>
-        <div>
-          <div class="text-3xl font-bold">20+</div>
-          <div class="text-sm text-[#ecc35c]/80">Publications</div>
+        <div class="impact-card p-8 bg-[#000000]/70 border border-[#ecc35c] rounded-lg hover:scale-105 transition">
+          <div class="text-4xl font-bold">20+</div>
+          <div class="mt-2 text-sm text-[#ecc35c]/80">Publications Academic Papers</div>
         </div>
-        <div>
-          <div class="text-3xl font-bold">10+</div>
-          <div class="text-sm text-[#ecc35c]/80">Industry Partners</div>
+        <div class="impact-card p-8 bg-[#000000]/70 border border-[#ecc35c] rounded-lg hover:scale-105 transition">
+          <div class="text-4xl font-bold">10+</div>
+          <div class="mt-2 text-sm text-[#ecc35c]/80">Industry Partners Collaborations</div>
         </div>
       </div>
     </section>
 
-    <!-- JOIN -->
-    <section id="join" class="bg-[#000000] border border-[#ecc35c] p-6 rounded-lg shadow-sm">
-      <h2 class="text-2xl font-semibold text-[#ecc35c]">Ready to Join Us?</h2>
-      <p class="mt-2 text-[#ecc35c]/90">
+    <section id="join" class="section">
+      <h2 class="text-3xl font-semibold text-[#ecc35c]">Ready to Join Us?</h2>
+      <p class="mt-4 text-[#ecc35c]/90 text-lg">
         Whether you're a student looking to dive into AI, a professor seeking research collaborations, or a company interested in partnerships, we'd love to work with you.
       </p>
+      <a href="#contact" class="mt-6 inline-block bg-[#ecc35c] text-[#000000] px-8 py-4 rounded-full font-semibold hover:bg-[#d9b34c] transition">Contact Us</a>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="bg-[#000000] border border-[#ecc35c] p-6 rounded-lg shadow-sm">
-      <h2 class="text-2xl font-semibold text-[#ecc35c]">Contact</h2>
-      <p class="mt-2 text-[#ecc35c]/90">
-        Email: <a href="mailto:wat.ai@uwaterloo.ca" class="underline">wat.ai@uwaterloo.ca</a>
-      </p>
+    <section id="contact" class="section">
+      <h2 class="text-3xl font-semibold text-[#ecc35c]">Contact</h2>
+      <p class="mt-4 text-[#ecc35c]/90 text-lg">Email: <a href="mailto:wat.ai@uwaterloo.ca" class="underline hover:text-white">wat.ai@uwaterloo.ca</a></p>
     </section>
+    
   </main>
 
-  <!-- CHAT WIDGET -->
-  <div id="chat-widget" class="fixed right-6 bottom-6 w-80 md:w-96 z-40">
-    <div id="chat-button" class="bg-[#000000] text-[#ecc35c] p-3 rounded-full shadow-lg cursor-pointer flex items-center justify-center">
+  <!-- CHAT WIDGET (same as before but maybe minor styling) -->
+  <div id="chat-widget" class="fixed right-6 bottom-6 w-80 md:w-96 z-50">
+    <div id="chat-button" class="bg-[#ecc35c] text-[#000000] p-3 rounded-full shadow-lg cursor-pointer flex items-center justify-center">
       Chat with Wat.AI
     </div>
 
-    <div id="chat-window" class="hidden mt-3 bg-[#000000] border border-[#ecc35c] rounded-lg shadow-lg overflow-hidden flex flex-col" style="height:420px;">
+    <div id="chat-window" class="hidden mt-3 bg-[#000000] border border-[#ecc35c] rounded-lg shadow-xl overflow-hidden flex flex-col" style="height:420px;">
       <div class="px-4 py-3 border-b border-[#ecc35c]">
         <div class="font-semibold text-[#ecc35c]">Wat.AI Assistant</div>
         <div class="text-xs text-[#ecc35c]/80">Demo chatbot — safe for live demo</div>
@@ -106,9 +129,49 @@
   </div>
 
   <script>
+    // particles setup
+    tsParticles.load("particles-background", {
+      fpsLimit: 60,
+      background: {
+        color: { value: "#000000" }
+      },
+      particles: {
+        number: { value: 80, density: { enable: true, area: 800 } },
+        color: { value: "#ecc35c" },
+        shape: { type: "circle" },
+        opacity: { value: 0.3, random: true },
+        size: { value: 3, random: true },
+        move: { enable: true, speed: 1, direction: "none", random: false, straight: false, outModes: { default: "out" } }
+      },
+      interactivity: {
+        detectsOn: "canvas",
+        events: {
+          onHover: { enable: true, mode: "repulse" },
+          onClick: { enable: true, mode: "push" },
+        },
+        modes: {
+          repulse: { distance: 100, duration: 0.4 },
+          push: { quantity: 4 }
+        },
+      },
+      detectRetina: true,
+    });
+
+    // scroll trigger: reveal sections
+    const sections = document.querySelectorAll(".section");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    sections.forEach(sec => observer.observe(sec));
+
+    // Chat logic (same as before)
     const API_MODE = false;
     const API_ENDPOINT = '/.netlify/functions/openai-chat';
-
     const chatButton = document.getElementById('chat-button');
     const chatWindow = document.getElementById('chat-window');
     const messagesEl = document.getElementById('messages');
@@ -146,7 +209,7 @@
         setTimeout(() => {
           removeLastBotPlaceholder();
           appendMessage('bot', fakeAiResponse(text));
-        }, 500);
+        }, 600);
       }
     });
 
@@ -166,19 +229,22 @@
     function removeLastBotPlaceholder() {
       const items = Array.from(messagesEl.children).reverse();
       for (const item of items) {
-        if (item.textContent.trim() === '...') { item.remove(); return; }
-        if (item.textContent.trim() === 'Thinking...') { item.remove(); return; }
+        if (item.textContent.trim() === '...' || item.textContent.trim() === 'Thinking...') {
+          item.remove();
+          return;
+        }
       }
     }
 
     function fakeAiResponse(input) {
       const p = input.toLowerCase();
       if (/\b(hello|hi|hey)\b/.test(p)) return 'Hi — welcome to Wat.AI! Want to learn about our impact or how to join?';
-      if (/\b(project|research|ai|robot|machine learning)\b/.test(p)) return 'We run impactful AI and robotics projects. Check the Impact section!';
+      if (/\b(project|research|ai|robot|machine learning)\b/.test(p)) return 'We run impactful AI projects. Check the Impact section!';
       if (/\b(join|become|member|how to join)\b/.test(p)) return 'Students join via project signups or at info sessions. Email us at wat.ai@uwaterloo.ca.';
       if (/\b(contact|email)\b/.test(p)) return 'You can reach us at wat.ai@uwaterloo.ca.';
       return "Thanks for asking! Check the site sections for more details.";
     }
   </script>
+
 </body>
 </html>
