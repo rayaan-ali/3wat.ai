@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wat.AI — University of Waterloo AI Club</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#000000] text-[#ecc35c] font-sans">
+  <!-- NAV -->
+  <nav class="bg-[#000000] shadow-md">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-gradient-to-br from-[#000000] to-[#ecc35c] rounded-full flex items-center justify-center text-[#ecc35c] font-bold">W</div>
+        <div>
+          <div class="font-bold text-[#ecc35c]">Wat.AI</div>
+          <div class="text-xs text-[#ecc35c]/80">University of Waterloo</div>
+        </div>
+      </div>
+      <div class="hidden md:flex gap-6 text-sm text-[#ecc35c]">
+        <a href="#about">About</a>
+        <a href="#impact">Impact</a>
+        <a href="#join">Join</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="max-w-5xl mx-auto px-6 py-12 text-center">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-[#ecc35c]">Wat.AI</h1>
+    <p class="mt-4 text-[#ecc35c]/90 max-w-2xl mx-auto">
+      WAT.ai is a student-run Artificial Intelligence (AI) Organization at the University of Waterloo and the undergraduate student body of the Waterloo AI Institute and member of the Sedra Student Design Centre (SSDC).
+    </p>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-6 pb-24 space-y-8">
+    <!-- ABOUT -->
+    <section id="about" class="bg-[#000000] border border-[#ecc35c] p-6 rounded-lg shadow-sm">
+      <h2 class="text-2xl font-semibold text-[#ecc35c]">About</h2>
+      <p class="mt-2 text-[#ecc35c]/90">
+        Our goal is to establish an environment to enable the continued growth of AI talent and suitable access to opportunities within the Waterloo community. 
+        We provide opportunities for undergraduate and graduate students to engage in impactful projects through collaboration with companies and internal research.
+      </p>
+    </section>
+
+    <!-- IMPACT -->
+    <section id="impact" class="bg-[#000000] border border-[#ecc35c] p-6 rounded-lg shadow-sm">
+      <h2 class="text-2xl font-semibold text-[#ecc35c]">Our Impact</h2>
+      <p class="mt-2 text-[#ecc35c]/90">Join a thriving community of AI enthusiasts making real impact through research, collaboration, and innovation.</p>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-6 text-center">
+        <div>
+          <div class="text-3xl font-bold">450+</div>
+          <div class="text-sm text-[#ecc35c]/80">Program Graduates</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold">40+</div>
+          <div class="text-sm text-[#ecc35c]/80">AI Projects</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold">20+</div>
+          <div class="text-sm text-[#ecc35c]/80">Publications</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold">10+</div>
+          <div class="text-sm text-[#ecc35c]/80">Industry Partners</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JOIN -->
+    <section id="join" class="bg-[#000000] border border-[#ecc35c] p-6 rounded-lg shadow-sm">
+      <h2 class="text-2xl font-semibold text-[#ecc35c]">Ready to Join Us?</h2>
+      <p class="mt-2 text-[#ecc35c]/90">
+        Whether you're a student looking to dive into AI, a professor seeking research collaborations, or a company interested in partnerships, we'd love to work with you.
+      </p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="bg-[#000000] border border-[#ecc35c] p-6 rounded-lg shadow-sm">
+      <h2 class="text-2xl font-semibold text-[#ecc35c]">Contact</h2>
+      <p class="mt-2 text-[#ecc35c]/90">
+        Email: <a href="mailto:wat.ai@uwaterloo.ca" class="underline">wat.ai@uwaterloo.ca</a>
+      </p>
+    </section>
+  </main>
+
+  <!-- CHAT WIDGET -->
+  <div id="chat-widget" class="fixed right-6 bottom-6 w-80 md:w-96 z-40">
+    <div id="chat-button" class="bg-[#000000] text-[#ecc35c] p-3 rounded-full shadow-lg cursor-pointer flex items-center justify-center">
+      Chat with Wat.AI
+    </div>
+
+    <div id="chat-window" class="hidden mt-3 bg-[#000000] border border-[#ecc35c] rounded-lg shadow-lg overflow-hidden flex flex-col" style="height:420px;">
+      <div class="px-4 py-3 border-b border-[#ecc35c]">
+        <div class="font-semibold text-[#ecc35c]">Wat.AI Assistant</div>
+        <div class="text-xs text-[#ecc35c]/80">Demo chatbot — safe for live demo</div>
+      </div>
+      <div id="messages" class="p-4 flex-1 overflow-auto text-sm space-y-3"></div>
+
+      <form id="chat-form" class="p-3 border-t border-[#ecc35c] flex items-center gap-2">
+        <input id="chat-input" class="flex-1 border border-[#ecc35c] bg-[#000000] text-[#ecc35c] rounded px-3 py-2 text-sm" placeholder="Ask about projects, impact, or how to join" />
+        <button type="submit" class="bg-[#ecc35c] text-[#000000] px-3 py-2 rounded">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const API_MODE = false;
+    const API_ENDPOINT = '/.netlify/functions/openai-chat';
+
+    const chatButton = document.getElementById('chat-button');
+    const chatWindow = document.getElementById('chat-window');
+    const messagesEl = document.getElementById('messages');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+
+    chatButton.addEventListener('click', () => {
+      chatWindow.classList.toggle('hidden');
+      if (!chatWindow.classList.contains('hidden')) chatInput.focus();
+    });
+
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = chatInput.value.trim();
+      if (!text) return;
+      appendMessage('user', text);
+      chatInput.value = '';
+      if (API_MODE) {
+        appendMessage('bot', 'Thinking...');
+        try {
+          const res = await fetch(API_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: text })
+          });
+          const data = await res.json();
+          removeLastBotPlaceholder();
+          appendMessage('bot', data.reply || 'Sorry, no reply.');
+        } catch (err) {
+          removeLastBotPlaceholder();
+          appendMessage('bot', 'Error contacting server.');
+        }
+      } else {
+        appendMessage('bot', '...');
+        setTimeout(() => {
+          removeLastBotPlaceholder();
+          appendMessage('bot', fakeAiResponse(text));
+        }, 500);
+      }
+    });
+
+    function appendMessage(who, text) {
+      const wrapper = document.createElement('div');
+      wrapper.className = who === 'user' ? 'text-right' : 'text-left';
+      const bubble = document.createElement('div');
+      bubble.className = who === 'user'
+        ? 'inline-block bg-[#ecc35c] text-[#000000] px-3 py-2 rounded-lg max-w-[85%]'
+        : 'inline-block bg-[#000000] border border-[#ecc35c] text-[#ecc35c] px-3 py-2 rounded-lg max-w-[85%]';
+      bubble.innerText = text;
+      wrapper.appendChild(bubble);
+      messagesEl.appendChild(wrapper);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function removeLastBotPlaceholder() {
+      const items = Array.from(messagesEl.children).reverse();
+      for (const item of items) {
+        if (item.textContent.trim() === '...') { item.remove(); return; }
+        if (item.textContent.trim() === 'Thinking...') { item.remove(); return; }
+      }
+    }
+
+    function fakeAiResponse(input) {
+      const p = input.toLowerCase();
+      if (/\b(hello|hi|hey)\b/.test(p)) return 'Hi — welcome to Wat.AI! Want to learn about our impact or how to join?';
+      if (/\b(project|research|ai|robot|machine learning)\b/.test(p)) return 'We run impactful AI and robotics projects. Check the Impact section!';
+      if (/\b(join|become|member|how to join)\b/.test(p)) return 'Students join via project signups or at info sessions. Email us at wat.ai@uwaterloo.ca.';
+      if (/\b(contact|email)\b/.test(p)) return 'You can reach us at wat.ai@uwaterloo.ca.';
+      return "Thanks for asking! Check the site sections for more details.";
+    }
+  </script>
+</body>
+</html>
