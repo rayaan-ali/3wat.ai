@@ -4,174 +4,285 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wat.AI — University of Waterloo AI Club</title>
+
+  <!-- Tailwind (CDN for quick prototyping) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Load tsParticles for background animation -->
+
+  <!-- tsParticles for animated background -->
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.1/tsparticles.bundle.min.js"></script>
 
   <style>
-    /* Extra custom styles */
-    #particles-background {
+    /* particles layer sits behind everything */
+    #particles-bg {
       position: fixed;
-      top: 0;
-      left: 0;
-      width:100%;
-      height:100%;
-      z-index: -1;
+      inset: 0;
+      z-index: 0;
       pointer-events: none;
+      background: linear-gradient(180deg, #000000 0%, #000000 100%);
     }
-    section {
+
+    /* ensure main site content sits above particles */
+    .site-root {
+      position: relative;
+      z-index: 10;
+    }
+
+    /* simple reveal animation for sections */
+    .reveal {
       opacity: 0;
-      transform: translateY(40px);
+      transform: translateY(30px);
       transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     }
-    section.visible {
+    .reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* small device tweaks for chat widget height */
+    @media (max-width: 420px) {
+      #chat-window { width: calc(100vw - 40px); right: 20px; left: 20px; }
+      #chat-widget { right: 12px; bottom: 12px; left: auto; }
+    }
+
+    /* custom scrollbar for messages */
+    #messages::-webkit-scrollbar { width: 8px; }
+    #messages::-webkit-scrollbar-thumb { background: rgba(236,195,92,0.18); border-radius: 999px; }
   </style>
 </head>
 <body class="bg-[#000000] text-[#ecc35c] font-sans overflow-x-hidden">
 
-  <!-- Particles Background -->
-  <div id="particles-background"></div>
+  <!-- PARTICLES BACKGROUND -->
+  <div id="particles-bg"></div>
 
-  <!-- NAV -->
-  <nav class="fixed w-full bg-[#000000]/90 backdrop-blur-md z-50 shadow-lg">
-    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-gradient-to-br from-[#000000] to-[#ecc35c] rounded-full flex items-center justify-center text-[#ecc35c] font-bold">W</div>
-        <div>
-          <div class="font-bold text-[#ecc35c]">Wat.AI</div>
-          <div class="text-xs text-[#ecc35c]/80">University of Waterloo</div>
+  <!-- MAIN SITE -->
+  <div class="site-root">
+
+    <!-- NAV -->
+    <nav class="fixed w-full bg-[#000000]/60 backdrop-blur-md z-40">
+      <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 bg-gradient-to-br from-[#000000] to-[#ecc35c] rounded-full flex items-center justify-center text-[#ecc35c] font-bold shadow">
+            W
+          </div>
+          <div>
+            <div class="font-bold text-[#ecc35c] text-lg">Wat.AI</div>
+            <div class="text-xs text-[#ecc35c]/70">University of Waterloo</div>
+          </div>
+        </div>
+
+        <div class="hidden md:flex gap-6 items-center text-sm">
+          <a href="#about" class="hover:text-white transition">About</a>
+          <a href="#impact" class="hover:text-white transition">Impact</a>
+          <a href="#join" class="hover:text-white transition">Join</a>
+          <a href="#contact" class="hover:text-white transition">Contact</a>
+        </div>
+
+        <!-- mobile menu trigger (simple) -->
+        <div class="md:hidden">
+          <button id="mobile-toggle" class="p-2 rounded text-[#ecc35c] border border-[#ecc35c]/30">Menu</button>
         </div>
       </div>
-      <div class="hidden md:flex gap-6 text-sm text-[#ecc35c]">
-        <a href="#about" class="hover:text-white transition">About</a>
-        <a href="#impact" class="hover:text-white transition">Impact</a>
-        <a href="#join" class="hover:text-white transition">Join</a>
-        <a href="#contact" class="hover:text-white transition">Contact</a>
+
+      <!-- mobile menu content -->
+      <div id="mobile-menu" class="hidden bg-[#000000] border-t border-[#ecc35c]/10">
+        <div class="px-6 py-4 flex flex-col gap-3">
+          <a href="#about" class="hover:text-white">About</a>
+          <a href="#impact" class="hover:text-white">Impact</a>
+          <a href="#join" class="hover:text-white">Join</a>
+          <a href="#contact" class="hover:text-white">Contact</a>
+        </div>
       </div>
+    </nav>
+
+    <!-- HERO -->
+    <header id="hero" class="min-h-screen flex items-center justify-center text-center px-6 pt-24">
+      <div class="max-w-5xl mx-auto">
+        <h1 class="text-5xl md:text-7xl font-extrabold leading-tight text-[#ecc35c] drop-shadow-lg">Wat.AI</h1>
+        <p class="mt-6 text-lg md:text-2xl text-[#ecc35c]/90 max-w-3xl mx-auto">
+          WAT.ai is a student-run Artificial Intelligence (AI) Organization at the University of Waterloo and the undergraduate student body of the Waterloo AI Institute, and a member of the Sedra Student Design Centre (SSDC).
+        </p>
+
+        <div class="mt-8 flex items-center justify-center gap-4">
+          <a href="#about" class="inline-block bg-[#ecc35c] text-[#000000] px-6 py-3 rounded-full font-semibold shadow hover:scale-105 transition">Learn More</a>
+          <a href="#join" class="inline-block border border-[#ecc35c] px-5 py-3 rounded-full text-[#ecc35c] hover:bg-[#ecc35c]/10 transition">Get Involved</a>
+        </div>
+
+        <div class="mt-12 text-sm text-[#ecc35c]/60 max-w-2xl mx-auto">
+          <em>Projects • Research • Workshops • Industry Collaboration</em>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="max-w-6xl mx-auto px-6 pb-32 space-y-20">
+
+      <!-- ABOUT -->
+      <section id="about" class="reveal bg-[#000000]/50 border border-[#ecc35c]/10 rounded-lg p-8 md:p-12">
+        <div class="md:flex md:items-center md:gap-8">
+          <div class="flex-1">
+            <h2 class="text-3xl font-semibold text-[#ecc35c]">About</h2>
+            <p class="mt-4 text-[#ecc35c]/90 leading-relaxed">
+              Our goal is to establish an environment to enable the continued growth of AI talent and suitable access to opportunities within the Waterloo community. We provide opportunities for undergraduate and graduate students to engage in impactful projects through collaboration with companies and internal research.
+            </p>
+            <ul class="mt-4 text-[#ecc35c]/80 space-y-1">
+              <li>• Student-run project teams and workshops</li>
+              <li>• Collaboration with industry and research partners</li>
+              <li>• Open to undergraduate & graduate students at Waterloo</li>
+            </ul>
+          </div>
+
+          <div class="mt-6 md:mt-0 md:w-80">
+            <!-- tasteful card -->
+            <div class="p-6 rounded-lg border border-[#ecc35c] bg-[#000000]/40">
+              <div class="text-sm text-[#ecc35c]/80">Membership</div>
+              <div class="mt-2 text-xl font-bold text-[#ecc35c]">Open to all Waterloo students</div>
+              <div class="mt-4 text-sm text-[#ecc35c]/70">Join projects, attend workshops, or collaborate on research.</div>
+              <a href="#join" class="mt-4 inline-block bg-[#ecc35c] text-[#000000] px-4 py-2 rounded font-medium hover:opacity-95 transition">Join Now</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- IMPACT -->
+      <section id="impact" class="reveal">
+        <h3 class="text-3xl font-semibold text-[#ecc35c]">Our Impact</h3>
+        <p class="mt-3 text-[#ecc35c]/85 max-w-2xl">Join a thriving community of AI enthusiasts making real impact through research, collaboration, and innovation.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+          <div class="p-6 bg-[#000000]/40 border border-[#ecc35c]/12 rounded-lg transform hover:scale-105 transition">
+            <div class="text-4xl font-bold text-[#ecc35c]">450+</div>
+            <div class="mt-2 text-sm text-[#ecc35c]/80">Program Graduates</div>
+          </div>
+          <div class="p-6 bg-[#000000]/40 border border-[#ecc35c]/12 rounded-lg transform hover:scale-105 transition">
+            <div class="text-4xl font-bold text-[#ecc35c]">40+</div>
+            <div class="mt-2 text-sm text-[#ecc35c]/80">AI Projects Completed</div>
+          </div>
+          <div class="p-6 bg-[#000000]/40 border border-[#ecc35c]/12 rounded-lg transform hover:scale-105 transition">
+            <div class="text-4xl font-bold text-[#ecc35c]">20+</div>
+            <div class="mt-2 text-sm text-[#ecc35c]/80">Publications</div>
+          </div>
+          <div class="p-6 bg-[#000000]/40 border border-[#ecc35c]/12 rounded-lg transform hover:scale-105 transition">
+            <div class="text-4xl font-bold text-[#ecc35c]">10+</div>
+            <div class="mt-2 text-sm text-[#ecc35c]/80">Industry Partners</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- JOIN -->
+      <section id="join" class="reveal bg-[#000000]/50 border border-[#ecc35c]/10 rounded-lg p-8">
+        <div class="md:flex md:justify-between md:items-center">
+          <div>
+            <h3 class="text-3xl font-semibold text-[#ecc35c]">Ready to Join Us?</h3>
+            <p class="mt-3 text-[#ecc35c]/90 max-w-lg">
+              Whether you're a student looking to dive into AI, a professor seeking research collaborations, or a company interested in partnerships, we'd love to work with you.
+            </p>
+          </div>
+          <div class="mt-6 md:mt-0">
+            <a href="#contact" class="inline-block bg-[#ecc35c] text-[#000000] px-6 py-3 rounded-full font-semibold hover:scale-105 transition">Contact Us</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="reveal">
+        <h3 class="text-3xl font-semibold text-[#ecc35c]">Contact</h3>
+        <p class="mt-3 text-[#ecc35c]/90">
+          Email: <a href="mailto:wat.ai@uwaterloo.ca" class="underline hover:text-white">wat.ai@uwaterloo.ca</a>
+        </p>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-[#ecc35c]/8 py-8 text-center text-[#ecc35c]/60">
+      © <span id="year"></span> Wat.AI — University of Waterloo
+    </footer>
+  </div>
+
+  <!-- CHAT WIDGET -->
+  <div id="chat-widget" class="fixed right-6 bottom-6 z-50">
+    <div id="chat-button" class="bg-[#ecc35c] text-[#000000] p-3 rounded-full shadow-lg cursor-pointer flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="#000000"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8-1.21 0-2.354-.18-3.4-.5L3 21l1.5-5.1C3.9 14.9 3 13.5 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+      <span class="font-medium text-sm">Chat with Wat.AI</span>
     </div>
-  </nav>
 
-  <!-- HERO -->
-  <header id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-6">
-    <h1 class="text-5xl md:text-7xl font-extrabold text-[#ecc35c] drop-shadow-lg">Wat.AI</h1>
-    <p class="mt-6 max-w-2xl text-lg md:text-2xl text-[#ecc35c]/90">WAT.ai is a student-run Artificial Intelligence (AI) Organization at the University of Waterloo and the undergraduate student body of the Waterloo AI Institute and member of the Sedra Student Design Centre (SSDC).</p>
-    <a href="#about" class="mt-8 text-[#000000] bg-[#ecc35c] px-6 py-3 rounded-full font-semibold hover:bg-[#goldenrod] transition">Learn More</a>
-  </header>
-
-  <main class="max-w-5xl mx-auto px-6 space-y-24 pb-24">
-    
-    <section id="about" class="section">
-      <h2 class="text-3xl font-semibold text-[#ecc35c]">About</h2>
-      <p class="mt-4 text-[#ecc35c]/90 text-lg leading-relaxed">
-        Our goal is to establish an environment to enable the continued growth of AI talent and suitable access to opportunities within the Waterloo community. We provide opportunities for undergraduate and graduate students to engage in impactful projects through collaboration with companies and internal research.
-      </p>
-    </section>
-
-    <section id="impact" class="section">
-      <h2 class="text-3xl font-semibold text-[#ecc35c]">Our Impact</h2>
-      <p class="mt-2 text-[#ecc35c]/90 text-lg">Join a thriving community of AI enthusiasts making real impact through research, collaboration, and innovation.</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mt-8">
-        <div class="impact-card p-8 bg-[#000000]/70 border border-[#ecc35c] rounded-lg hover:scale-105 transition">
-          <div class="text-4xl font-bold">450+</div>
-          <div class="mt-2 text-sm text-[#ecc35c]/80">Program Graduates</div>
-        </div>
-        <div class="impact-card p-8 bg-[#000000]/70 border border-[#ecc35c] rounded-lg hover:scale-105 transition">
-          <div class="text-4xl font-bold">40+</div>
-          <div class="mt-2 text-sm text-[#ecc35c]/80">AI Projects Completed Successfully</div>
-        </div>
-        <div class="impact-card p-8 bg-[#000000]/70 border border-[#ecc35c] rounded-lg hover:scale-105 transition">
-          <div class="text-4xl font-bold">20+</div>
-          <div class="mt-2 text-sm text-[#ecc35c]/80">Publications Academic Papers</div>
-        </div>
-        <div class="impact-card p-8 bg-[#000000]/70 border border-[#ecc35c] rounded-lg hover:scale-105 transition">
-          <div class="text-4xl font-bold">10+</div>
-          <div class="mt-2 text-sm text-[#ecc35c]/80">Industry Partners Collaborations</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="join" class="section">
-      <h2 class="text-3xl font-semibold text-[#ecc35c]">Ready to Join Us?</h2>
-      <p class="mt-4 text-[#ecc35c]/90 text-lg">
-        Whether you're a student looking to dive into AI, a professor seeking research collaborations, or a company interested in partnerships, we'd love to work with you.
-      </p>
-      <a href="#contact" class="mt-6 inline-block bg-[#ecc35c] text-[#000000] px-8 py-4 rounded-full font-semibold hover:bg-[#d9b34c] transition">Contact Us</a>
-    </section>
-
-    <section id="contact" class="section">
-      <h2 class="text-3xl font-semibold text-[#ecc35c]">Contact</h2>
-      <p class="mt-4 text-[#ecc35c]/90 text-lg">Email: <a href="mailto:wat.ai@uwaterloo.ca" class="underline hover:text-white">wat.ai@uwaterloo.ca</a></p>
-    </section>
-    
-  </main>
-
-  <!-- CHAT WIDGET (same as before but maybe minor styling) -->
-  <div id="chat-widget" class="fixed right-6 bottom-6 w-80 md:w-96 z-50">
-    <div id="chat-button" class="bg-[#ecc35c] text-[#000000] p-3 rounded-full shadow-lg cursor-pointer flex items-center justify-center">
-      Chat with Wat.AI
-    </div>
-
-    <div id="chat-window" class="hidden mt-3 bg-[#000000] border border-[#ecc35c] rounded-lg shadow-xl overflow-hidden flex flex-col" style="height:420px;">
-      <div class="px-4 py-3 border-b border-[#ecc35c]">
+    <div id="chat-window" class="hidden mt-3 w-80 md:w-96 bg-[#000000] border border-[#ecc35c] rounded-lg shadow-xl overflow-hidden flex flex-col" style="height:420px;">
+      <div class="px-4 py-3 border-b border-[#ecc35c]/12">
         <div class="font-semibold text-[#ecc35c]">Wat.AI Assistant</div>
-        <div class="text-xs text-[#ecc35c]/80">Demo chatbot — safe for live demo</div>
+        <div class="text-xs text-[#ecc35c]/70">Demo chatbot — safe for live demo</div>
       </div>
+
       <div id="messages" class="p-4 flex-1 overflow-auto text-sm space-y-3"></div>
 
-      <form id="chat-form" class="p-3 border-t border-[#ecc35c] flex items-center gap-2">
-        <input id="chat-input" class="flex-1 border border-[#ecc35c] bg-[#000000] text-[#ecc35c] rounded px-3 py-2 text-sm" placeholder="Ask about projects, impact, or how to join" />
+      <form id="chat-form" class="p-3 border-t border-[#ecc35c]/8 flex items-center gap-2">
+        <input id="chat-input" class="flex-1 border border-[#ecc35c]/12 bg-[#000000] text-[#ecc35c] rounded px-3 py-2 text-sm" placeholder="Ask about projects, joining, or events" />
         <button type="submit" class="bg-[#ecc35c] text-[#000000] px-3 py-2 rounded">Send</button>
       </form>
     </div>
   </div>
 
   <script>
-    // particles setup
-    tsParticles.load("particles-background", {
-      fpsLimit: 60,
-      background: {
-        color: { value: "#000000" }
-      },
-      particles: {
-        number: { value: 80, density: { enable: true, area: 800 } },
-        color: { value: "#ecc35c" },
-        shape: { type: "circle" },
-        opacity: { value: 0.3, random: true },
-        size: { value: 3, random: true },
-        move: { enable: true, speed: 1, direction: "none", random: false, straight: false, outModes: { default: "out" } }
-      },
-      interactivity: {
-        detectsOn: "canvas",
-        events: {
-          onHover: { enable: true, mode: "repulse" },
-          onClick: { enable: true, mode: "push" },
-        },
-        modes: {
-          repulse: { distance: 100, duration: 0.4 },
-          push: { quantity: 4 }
-        },
-      },
-      detectRetina: true,
-    });
+    // --- basic page wiring ---
+    document.getElementById('year').innerText = new Date().getFullYear();
 
-    // scroll trigger: reveal sections
-    const sections = document.querySelectorAll(".section");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
+    // mobile menu toggle
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileToggle) {
+      mobileToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    }
+
+    // scroll reveal with IntersectionObserver
+    const revealEls = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.18 });
+    revealEls.forEach(el => obs.observe(el));
+
+    // simple nav anchor smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (ev) => {
+        const href = a.getAttribute('href');
+        if (href.length > 1) {
+          ev.preventDefault();
+          const el = document.querySelector(href);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
-    }, { threshold: 0.2 });
+    });
 
-    sections.forEach(sec => observer.observe(sec));
+    // --- tsParticles background config ---
+    tsParticles.load("particles-bg", {
+      fpsLimit: 60,
+      background: { color: { value: "#000000" } },
+      particles: {
+        number: { value: 80, density: { enable: true, area: 900 } },
+        color: { value: "#ecc35c" },
+        shape: { type: "circle" },
+        opacity: { value: 0.15, random: true },
+        size: { value: 3, random: { enable: true, minimumValue: 1 } },
+        move: { enable: true, speed: 0.9, outModes: { default: "out" } },
+        links: { enable: true, distance: 140, color: "#ecc35c", opacity: 0.06, width: 1 }
+      },
+      interactivity: {
+        events: {
+          onHover: { enable: true, mode: "repulse" },
+          onClick: { enable: true, mode: "push" }
+        },
+        modes: {
+          repulse: { distance: 90, duration: 0.4 },
+          push: { quantity: 3 }
+        }
+      },
+      detectRetina: true
+    });
 
-    // Chat logic (same as before)
-    const API_MODE = false;
-    const API_ENDPOINT = '/.netlify/functions/openai-chat';
+    // --- chat widget logic (demo mode by default) ---
+    const API_MODE = false; // set to true after you deploy a server-proxy
+    const API_ENDPOINT = '/.netlify/functions/openai-chat'; // example
+
     const chatButton = document.getElementById('chat-button');
     const chatWindow = document.getElementById('chat-window');
     const messagesEl = document.getElementById('messages');
@@ -198,53 +309,62 @@
             body: JSON.stringify({ message: text })
           });
           const data = await res.json();
-          removeLastBotPlaceholder();
+          removeLastPlaceholders();
           appendMessage('bot', data.reply || 'Sorry, no reply.');
         } catch (err) {
-          removeLastBotPlaceholder();
+          removeLastPlaceholders();
           appendMessage('bot', 'Error contacting server.');
+          console.error(err);
         }
       } else {
+        // demo rules-based reply
         appendMessage('bot', '...');
         setTimeout(() => {
-          removeLastBotPlaceholder();
+          removeLastPlaceholders();
           appendMessage('bot', fakeAiResponse(text));
-        }, 600);
+        }, 600 + Math.random() * 400);
       }
     });
 
     function appendMessage(who, text) {
-      const wrapper = document.createElement('div');
-      wrapper.className = who === 'user' ? 'text-right' : 'text-left';
+      const wrap = document.createElement('div');
+      wrap.className = who === 'user' ? 'text-right' : 'text-left';
       const bubble = document.createElement('div');
       bubble.className = who === 'user'
         ? 'inline-block bg-[#ecc35c] text-[#000000] px-3 py-2 rounded-lg max-w-[85%]'
-        : 'inline-block bg-[#000000] border border-[#ecc35c] text-[#ecc35c] px-3 py-2 rounded-lg max-w-[85%]';
+        : 'inline-block bg-[#000000] border border-[#ecc35c]/12 text-[#ecc35c] px-3 py-2 rounded-lg max-w-[85%]';
       bubble.innerText = text;
-      wrapper.appendChild(bubble);
-      messagesEl.appendChild(wrapper);
+      wrap.appendChild(bubble);
+      messagesEl.appendChild(wrap);
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    function removeLastBotPlaceholder() {
-      const items = Array.from(messagesEl.children).reverse();
-      for (const item of items) {
-        if (item.textContent.trim() === '...' || item.textContent.trim() === 'Thinking...') {
-          item.remove();
-          return;
-        }
+    function removeLastPlaceholders() {
+      const chans = Array.from(messagesEl.children).reverse();
+      for (const c of chans) {
+        const txt = c.textContent?.trim();
+        if (!txt) continue;
+        if (txt === '...' || txt === 'Thinking...') { c.remove(); return; }
       }
     }
 
     function fakeAiResponse(input) {
       const p = input.toLowerCase();
       if (/\b(hello|hi|hey)\b/.test(p)) return 'Hi — welcome to Wat.AI! Want to learn about our impact or how to join?';
-      if (/\b(project|research|ai|robot|machine learning)\b/.test(p)) return 'We run impactful AI projects. Check the Impact section!';
-      if (/\b(join|become|member|how to join)\b/.test(p)) return 'Students join via project signups or at info sessions. Email us at wat.ai@uwaterloo.ca.';
-      if (/\b(contact|email)\b/.test(p)) return 'You can reach us at wat.ai@uwaterloo.ca.';
-      return "Thanks for asking! Check the site sections for more details.";
+      if (/\b(project|research|ai|robot|machine learning|ml)\b/.test(p)) return 'We run impactful AI and robotics projects. Check the Impact section for highlights.';
+      if (/\b(join|become|member|how to join)\b/.test(p)) return 'Students join via project signups and info sessions. Email wat.ai@uwaterloo.ca to get started.';
+      if (/\b(contact|email|reach)\b/.test(p)) return 'You can reach us at wat.ai@uwaterloo.ca.';
+      return "Thanks — we'll get back to you. If you'd like detailed answers, flip API_MODE to true after deploying a serverless function.";
     }
-  </script>
 
+    // small accessibility: open chat with "/" key
+    window.addEventListener('keydown', (ev) => {
+      if (ev.key === '/') {
+        ev.preventDefault();
+        if (chatWindow.classList.contains('hidden')) chatWindow.classList.remove('hidden');
+        chatInput.focus();
+      }
+    });
+  </script>
 </body>
 </html>
